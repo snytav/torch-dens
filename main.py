@@ -27,7 +27,7 @@ plotRealTime = True # switch on for plotting as the simulation goes along
 #np.random.seed(42)            # set the random number generator seed
 # construct 2 opposite-moving Guassian beams
 #pos  = torch.rand(N) * boxsize
-pos  = torch.tensor([0.2])
+pos  = torch.tensor([0.2,0.8])
 pos.requires_grad = True
 
 import sys
