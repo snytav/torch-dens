@@ -27,13 +27,15 @@ plotRealTime = True # switch on for plotting as the simulation goes along
 #np.random.seed(42)            # set the random number generator seed
 # construct 2 opposite-moving Guassian beams
 #pos  = torch.rand(N) * boxsize
-X = np.array([[0.37454012], [0.95071431], [0.73199394], [0.59865848], [0.15601864], [0.15599452], [0.05808361], [0.86617615], [0.60111501], [0.70807258]]) #[[0.37454012], [0.95071431], [0.73199394], [0.59865848], [0.15601864], [0.15599452], [0.05808361], [0.86617615], [0.60111501], [0.70807258]])
-X = X.reshape(X.shape[0])
+#X = np.array([[0.37454012], [0.95071431], [0.73199394], [0.59865848], [0.15601864], [0.15599452], [0.05808361], [0.86617615], [0.60111501], [0.70807258]]) #[[0.37454012], [0.95071431], [0.73199394], [0.59865848], [0.15601864], [0.15599452], [0.05808361], [0.86617615], [0.60111501], [0.70807258]])
+#X = X.reshape(X.shape[0])
+X = np.loadtxt('POS.Txt')
 pos  = torch.from_numpy(X)
 pos.requires_grad = True
 
 import sys
 def denst(Pos,Nx,boxsize,n0):
+    N = Pos.shape[0]
     dx = boxsize/Nx
     n= torch.zeros(Nx)
     for pos in Pos:
@@ -44,6 +46,8 @@ def denst(Pos,Nx,boxsize,n0):
         jp1 = torch.remainder(jp1, Nx)
         n[j] += weight_j
         n[jp1] += weight_jp1
+
+    n *= n0 * boxsize / N / dx
     return n
 
 
@@ -54,5 +58,5 @@ qq = 0
 
 
 import matplotlib.pyplot as plt
-plt.plot(n)
+# plt.plot(n)
 
