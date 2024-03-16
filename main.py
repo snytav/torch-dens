@@ -12,7 +12,7 @@ import torch
 
 # Simulation parameters
 N         = 1       # Number of particles
-Nx        = 100      # Number of mesh cells
+Nx        = 10      # Number of mesh cells
 t         = 0       # current time of the simulation
 tEnd      = 50      # time at which simulation ends
 dt        = 1       # timestep
