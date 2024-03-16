@@ -51,7 +51,7 @@ def denst(Pos,Nx,boxsize,n0):
     return n
 
 
-optimizer = torch.optim.SGD([pos],lr=0.001)
+optimizer = torch.optim.Adam([pos],lr=0.001)
 lf = 1e6*torch.ones(1)
 i = 0
 while lf.item() > 1e-2:
