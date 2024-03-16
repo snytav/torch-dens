@@ -51,7 +51,19 @@ def denst(Pos,Nx,boxsize,n0):
     return n
 
 
-n = denst(pos,Nx,boxsize,n0)
+optimizer = torch.optim.SGD([pos],lr=0.001)
+lf = 1e6*torch.ones(1)
+i = 0
+while lf.item() > 1e-2:
+    optimizer.zero_grad()
+    n = denst(pos,Nx,boxsize,n0)
+    n0 = torch.ones_like(n)
+    lf = torch.max(torch.abs(torch.subtract(n,n0)))
+    print(i,lf)
+    lf.backward()
+    optimizer.step()
+    i = i+1
+
 qq = 0
 
 
