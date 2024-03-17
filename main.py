@@ -33,6 +33,9 @@ X = np.loadtxt('POS.Txt')
 pos  = torch.from_numpy(X)
 pos.requires_grad = True
 
+
+xx = torch.linspace(0,boxsize,Nx)
+
 import sys
 def denst(Pos,Nx,boxsize,n0):
     N = Pos.shape[0]
@@ -51,19 +54,26 @@ def denst(Pos,Nx,boxsize,n0):
     return n
 
 
+import matplotlib.pyplot as plt
+fig = plt.figure()
+plt.legend()
+n0 = torch.exp(xx)
+plt.plot(xx.numpy(),n0.detach().numpy(),color='green')
 optimizer = torch.optim.Adam([pos],lr=0.001)
 lf = 1e6*torch.ones(1)
 i = 0
 while lf.item() > 1e-2:
     optimizer.zero_grad()
     n = denst(pos,Nx,boxsize,n0)
-    n0 = torch.ones_like(n)
+    #plt.plot(xx.numpy(),n.detach().numpy(),color='red',label='iteration '+ str(i))
+    n0 = torch.exp(xx) # torch.ones_like(n)
     lf = torch.max(torch.abs(torch.subtract(n,n0)))
     print(i,lf)
     lf.backward()
     optimizer.step()
     i = i+1
-
+plt.scatter(xx.numpy(),n.detach().numpy(),color='blue',marker='o')
+plt.show()
 qq = 0
 
 
